@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WAWA · 水痕变字小样</title>
+<style>
+  *{box-sizing:border-box}body{margin:0;background:#fff;font-family:Arial,sans-serif;color:#252525}
+  main{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:30px}
+  img{display:block;width:min(70vw,768px);height:auto}button{background:#fff;border:1px solid #ddd;border-radius:30px;padding:12px 26px;font:inherit;cursor:pointer}
+  p{font-size:13px;color:#888;margin:0}button:hover{background:#f8f8f8}
+</style>
+<main><img id="study" src="frog-watermark.webp?v=20261113-ae-intro6" width="928" height="640" alt="水痕过渡到 WA 字形"><button id="replay">重新播放</button><p>第一帧停留 6 帧 · 之后保持 AE 节奏 · 末帧停留</p></main>
+<script type="module">
+  const image = document.querySelector('#study');
+  const asset = await fetch('frog-watermark.webp?v=20261113-ae-intro6').then(response=>response.blob());
+  let current;
+  document.querySelector('#replay').onclick=()=>{
+    const previous=current;
+    current=URL.createObjectURL(asset);
+    image.src=current;
+    if(previous)URL.revokeObjectURL(previous);
+  };
+  window.addEventListener('pagehide',()=>{if(current)URL.revokeObjectURL(current)});
+</script>
+</html>
